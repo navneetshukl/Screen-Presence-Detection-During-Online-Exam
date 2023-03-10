@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Form Extension",
+    "version": "1.0",
+    "description": "A Chrome extension that loads a form and sends the data to a server",
+    "permissions": [
+      "activeTab"
+      
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webcam Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="webcam"></div>
+    <!-- <button id="capture-btn">Capture & Save</button>
+    <button id="display-btn">Display Image</button> -->
+
+    <script>
+      Webcam.set({
+        width: 320,
+        height: 240,
+        dest_width: 640,
+        dest_height: 480,
+        image_format: "jpeg",
+        jpeg_quality: 90,
+      });
+      Webcam.attach("#webcam");
+
+      setInterval(function () {
+        Webcam.snap(function (data_uri) {
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/save",
+            data: { image: data_uri },
+            success: function (response) {
+              //alert("Image saved to server!");
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            },
+          });
+        });
+      }, 180000);
+
+      // $("#display-btn").click(function () {
+      //   $.ajax({
+      //     type: "GET",
+      //     url: "http://localhost:8000/display",
+      //     success: function (response) {
+      //       var blob = new Blob([response], { type: "image/jpeg" });
+      //       var imageUrl = URL.createObjectURL(blob);
+      //       var img = new Image();
+      //       img.onload = function () {
+      //         URL.revokeObjectURL(this.src); // Free up memory
+      //       };
+      //       img.crossOrigin = "anonymous";
+      //       img.src = imageUrl;
+      //       $("#webcam").html(img);
+      //     },
+      //     error: function (xhr, status, error) {
+      //       console.error(error);
+      //     },
+      //   });
+      // });
+    </script>
+  </body>
+</html>
